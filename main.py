@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from settings.connection import database
+from cats import controllers as CatController
 
 
 app = FastAPI()
@@ -18,3 +19,6 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await database.disconnect()
+
+
+app.include_router(CatController.route, tags=["Cat"])
