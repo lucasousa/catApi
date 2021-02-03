@@ -2,7 +2,7 @@ import databases
 import sqlalchemy
 from functools import lru_cache
 from settings import confs_db
-from database.models import metadata
+from database.cat_table import metadata
 
 
 @lru_cache()
