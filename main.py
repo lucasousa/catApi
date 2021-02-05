@@ -6,11 +6,6 @@ from cats import controllers as CatController
 app = FastAPI()
 
 
-@app.get("/")
-def index():
-    return {'Mensagem': 'Hello world!'}
-
-
 @app.on_event("startup")
 async def startup():
     await database.connect()
