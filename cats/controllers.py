@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from database.cat_table import cats
+from database.schemas import cats
 from cats.models import CatCreate, CatList
 from settings.connection import database
 from typing import List, Optional
@@ -64,10 +64,10 @@ async def partial_update_cat(id: int, cat: CatCreate):
 
 
 @route.get("/cats/")
-async def search_cat( id: int = None, breed: str = None, location_of_origin: str = None, coat_length: str = None,
+async def get_cats( id: int = None, breed: str = None, location_of_origin: str = None, coat_length: str = None,
                       body_type: str = None, pattern: str = None ):
-    
-    if id:
+    query = None
+    if id is not None:
         query = cats.select().where(cats.c.id==id)        
 
     if breed:
@@ -85,5 +85,10 @@ async def search_cat( id: int = None, breed: str = None, location_of_origin: str
     if pattern:
         query = cats.select().where(cats.c.pattern==pattern)
     
-    response = await database.fetch_one(query)
-    return response if response else {"Nao": "encontrado"}
+    if query is not None:
+        response = await database.fetch_all(query)
+    else:
+        query = cats.select()
+        response = await database.fetch_all(query)
+
+    return response if response else []
