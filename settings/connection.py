@@ -2,7 +2,6 @@ import databases
 import sqlalchemy
 from functools import lru_cache
 from settings import confs_db
-from database.cat_table import metadata
 
 
 @lru_cache()
@@ -23,9 +22,6 @@ def DATABASE_URL(
 
 database = databases.Database(DATABASE_URL())
 
-
 engine = sqlalchemy.create_engine(
     DATABASE_URL()
 )
-
-metadata.create_all(engine)

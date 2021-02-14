@@ -1,13 +1,10 @@
 from pydantic import BaseSettings
-
+from decouple import config
 
 class SettingsDB(BaseSettings):
-    connection: str
-    host: str
-    port: str
-    username: str
-    name: str
-    password: str
-
-    class Config():
-        env_file = ".env"
+    connection: str    = config("CONNECTION")
+    host: str          = config("HOST")
+    port: str          = config("PORT")
+    username: str      = config("USERNAME")
+    name: str          = config("NAME")
+    password: str      = config("PASSWORD")
